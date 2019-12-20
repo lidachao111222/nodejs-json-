@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/lidachao111222/nodejs-json-#readme",
   "dependencies": {
+    "@types/node": "^12.12.21",
     "art-template": "^4.13.2",
     "bootstrap": "^4.4.1",
     "jquery": "^3.4.1",
