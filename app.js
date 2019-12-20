@@ -37,6 +37,8 @@ app.on('request', (req, res) => {
 
     let method = req.method; //得到请求的方式
 
+    BindRounder(req,res);
+
     //通过请求的 URL 路径来区别不同请求
     if (method == 'GET' && (pathname == '/' || pathname == '/index' || pathname == '/index.html' || pathname == '/favicon.ico ')) {
         //得到html内容传出去。 这里直接使用art-template。不用readfile, 目的是为了后期好封装
@@ -51,7 +53,7 @@ app.on('request', (req, res) => {
             // let content = template(path.join(__dirname, './views/index.html'), arrObj);
             // res.end(content);
 
-            rounder('index',arrObj,res);
+            res.rounder('index',arrObj);
         })
 
     } else if (method == 'GET' && (pathname == '/add' || pathname == '/add.html')) {
@@ -60,19 +62,19 @@ app.on('request', (req, res) => {
         // //把内容传回到浏览器
         // res.end(content);
 
-        rounder('add',{},res);
+        res.rounder('add',{});
     } else if (method == 'GET' && (pathname == '/edit' || pathname == '/edit.html')) {
         //编辑页面的请求
         // let content = template(path.join(__dirname, './views/edit.html'), {})
         // res.end(content);
 
-        rounder('edit',{},res);
+        res.rounder('edit',{});
     } else if (method == 'GET' && (pathname == '/info' || pathname == '/info.html')) {
         //编辑页面的请求
         // let content = template(path.join(__dirname, './views/info.html'), {})
         // res.end(content);
 
-        rounder('info',{},res);
+        res.rounder('info',{});
     } else if (method == 'GET' && pathname == '/node_modules/bootstrap/dist/css/bootstrap.css') {
         //bootstrap.css的请求
         fs.readFile(path.join(__dirname, './node_modules/bootstrap/dist/css/bootstrap.css'), (err, data) => {
@@ -96,9 +98,14 @@ app.on('request', (req, res) => {
 
 })
 
-
-//返回内容封装
-function rounder(filename,arrObj,res){
-    let content = template(path.join(__dirname, './views/'+filename+'.html'), arrObj);
-    res.end(content);
+function BindRounder(req,res){
+    res.rounder = function(filename,arrObj){
+        let content = template(path.join(__dirname, './views/'+filename+'.html'), arrObj);
+        res.end(content);
+    }
 }
+//返回内容封装
+// function rounder(filename,arrObj,res){
+//     let content = template(path.join(__dirname, './views/'+filename+'.html'), arrObj);
+//     res.end(content);
+// }
