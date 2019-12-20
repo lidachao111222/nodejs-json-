@@ -6,20 +6,25 @@ const urlModel = require('url'); // url模块 ，用于url解析、处理等操�
 const template = require('_art-template@4.13.2@art-template'); //第三方模块，模板引擎
 const fs = require('fs'); //file system 模板， 用于读写数据。
 const bindRounder = require('./bindRouter');
-
+const dataModel = require('./dataModel')
 
 
 module.exports= {
 
     //展示首页
     showIndex(req,res){
-        fs.readFile(path.join(__dirname, './heros.json'), (err, data) => {
-            if (err) return console.log(err.message);
-            let arrObj = JSON.parse(data);
 
 
-            res.rounder('index', arrObj);
+        //回調函數，得到json得到的数据，并返回到浏览器
+        dataModel.getAllHeros((err,data)=>{
+            if(err) return res.end( JSON.stringify({
+                code:200,
+                mes:'导出所有英雄数据失败'
+            }))
+            res.rounder('index', data);
         })
+
+       
     },
 
 
