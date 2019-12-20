@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-json-",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lidachao111222/nodejs-json-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lidachao111222/nodejs-json-/issues"
+  },
+  "homepage": "https://github.com/lidachao111222/nodejs-json-#readme",
+  "dependencies": {
+    "art-template": "^4.13.2",
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "moment": "^2.24.0"
+  }
+}
