@@ -48,23 +48,31 @@ app.on('request', (req, res) => {
             //把数据转为对象
             let arrObj = JSON.parse(data);
             // 把对象传入的模板引擎中，生成动态数据
-            let content = template(path.join(__dirname, './views/index.html'), arrObj);
-            res.end(content);
+            // let content = template(path.join(__dirname, './views/index.html'), arrObj);
+            // res.end(content);
+
+            rounder('index',arrObj,res);
         })
 
     } else if (method == 'GET' && (pathname == '/add' || pathname == '/add.html')) {
-        //添加页面的请求
-        let content = template(path.join(__dirname, './views/add.html'), {});
-        //把内容传回到浏览器
-        res.end(content);
+        // //添加页面的请求
+        // let content = template(path.join(__dirname, './views/add.html'), {});
+        // //把内容传回到浏览器
+        // res.end(content);
+
+        rounder('add',{},res);
     } else if (method == 'GET' && (pathname == '/edit' || pathname == '/edit.html')) {
         //编辑页面的请求
-        let content = template(path.join(__dirname, './views/edit.html'), {})
-        res.end(content);
+        // let content = template(path.join(__dirname, './views/edit.html'), {})
+        // res.end(content);
+
+        rounder('edit',{},res);
     } else if (method == 'GET' && (pathname == '/info' || pathname == '/info.html')) {
         //编辑页面的请求
-        let content = template(path.join(__dirname, './views/info.html'), {})
-        res.end(content);
+        // let content = template(path.join(__dirname, './views/info.html'), {})
+        // res.end(content);
+
+        rounder('info',{},res);
     } else if (method == 'GET' && pathname == '/node_modules/bootstrap/dist/css/bootstrap.css') {
         //bootstrap.css的请求
         fs.readFile(path.join(__dirname, './node_modules/bootstrap/dist/css/bootstrap.css'), (err, data) => {
@@ -87,3 +95,10 @@ app.on('request', (req, res) => {
 
 
 })
+
+
+//返回内容封装
+function rounder(filename,arrObj,res){
+    let content = template(path.join(__dirname, './views/'+filename+'.html'), arrObj);
+    res.end(content);
+}
