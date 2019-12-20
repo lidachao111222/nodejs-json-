@@ -38,31 +38,41 @@ app.on('request', (req, res) => {
     let method = req.method; //得到请求的方式
 
     //通过请求的 URL 路径来区别不同请求
-    if (method == 'GET' && (pathname == '/' || pathname == '/index' || pathname == '/index.html')) {
+    if (method == 'GET' && (pathname == '/' || pathname == '/index' || pathname == '/index.html' || pathname == '/favicon.ico ')) {
         //得到html内容传出去。 这里直接使用art-template。不用readfile, 目的是为了后期好封装
         let content = template(path.join(__dirname, './views/index.html'), {});
         res.end(content);
-    } else if (method == 'GET' && ( pathname == '/add' || pathname == '/add.html')) {
+    } else if (method == 'GET' && (pathname == '/add' || pathname == '/add.html')) {
         //添加页面的请求
         let content = template(path.join(__dirname, './views/add.html'), {});
         //把内容传回到浏览器
         res.end(content);
-    }else if (method == 'GET' && ( pathname == '/edit' || pathname == '/edit.html')) {
+    } else if (method == 'GET' && (pathname == '/edit' || pathname == '/edit.html')) {
         //编辑页面的请求
         let content = template(path.join(__dirname, './views/edit.html'), {})
         res.end(content);
-    }else if (method == 'GET' && ( pathname == '/info' || pathname == '/info.html')) {
+    } else if (method == 'GET' && (pathname == '/info' || pathname == '/info.html')) {
         //编辑页面的请求
         let content = template(path.join(__dirname, './views/info.html'), {})
         res.end(content);
-    }else if (method == 'GET' && pathname == '/node_modules/bootstrap/dist/css/bootstrap.css' ) {
+    } else if (method == 'GET' && pathname == '/node_modules/bootstrap/dist/css/bootstrap.css') {
         //bootstrap.css的请求
-        let content = template(path.join(__dirname, './node_modules/bootstrap/dist/css/bootstrap.css'), {})
-        res.end(content);
-    }else if (method == 'GET' && pathname == '/node_modules/jquery/dist/jquery.js' ) {
+        fs.readFile(path.join(__dirname, './node_modules/bootstrap/dist/css/bootstrap.css'), (err, data) => {
+            if (err) return console.log(err.message);
+            res.writeHead(200,{
+                'Content-Type':'text/css; charset=utf8;'
+            })
+            res.end(data);
+        })
+
+    } else if (method == 'GET' && pathname == '/node_modules/jquery/dist/jquery.js') {
         //jquery的请求
-        let content = template(path.join(__dirname, '/node_modules/jquery/dist/jquery.js'), {})
-        res.end(content);
+        fs.readFile(path.join(__dirname, '/node_modules/jquery/dist/jquery.js'), 'utf8', (err, data) => {
+            if (err) return console.log(err.message);
+            res.end(data);
+        })
+    }else{
+        res.end('404');
     }
 
 
