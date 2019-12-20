@@ -4,7 +4,7 @@ const path = require('path'); // path模块 ，模块提供了一些用于处理
 const urlModel = require('url'); // url模块 ，用于url解析、处理等操作的解决方案。
 const template = require('_art-template@4.13.2@art-template'); //第三方模块，模板引擎
 const fs = require('fs'); //file system 模板， 用于读写数据。
-
+const bindRounder = require('./bindRouter');
 
 
 
@@ -37,7 +37,7 @@ app.on('request', (req, res) => {
 
     let method = req.method; //得到请求的方式
 
-    BindRounder(req,res);
+    bindRounder(req,res);
 
     //通过请求的 URL 路径来区别不同请求
     if (method == 'GET' && (pathname == '/' || pathname == '/index' || pathname == '/index.html' || pathname == '/favicon.ico ')) {
@@ -98,12 +98,12 @@ app.on('request', (req, res) => {
 
 })
 
-function BindRounder(req,res){
-    res.rounder = function(filename,arrObj){
-        let content = template(path.join(__dirname, './views/'+filename+'.html'), arrObj);
-        res.end(content);
-    }
-}
+// function bindRounder(req,res){
+//     res.rounder = function(filename,arrObj){
+//         let content = template(path.join(__dirname, './views/'+filename+'.html'), arrObj);
+//         res.end(content);
+//     }
+// }
 //返回内容封装
 // function rounder(filename,arrObj,res){
 //     let content = template(path.join(__dirname, './views/'+filename+'.html'), arrObj);
