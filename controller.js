@@ -30,15 +30,20 @@ module.exports = {
 
     //展示添加页面
     showAdd(req, res) {
-
-
         res.rounder('add', {});
     },
 
 
     //展示编辑页面
     showEdit(req, res) {
-        res.rounder('edit', {});
+        // console.log(req.query.id);
+        //根据id将数据传回;
+        dataModel.getEachHero(req.query.id,(err,data)=>{
+            if(err) return res.end(err);
+
+            res.rounder('edit', data);
+        })
+       
     },
 
 
@@ -46,7 +51,6 @@ module.exports = {
     showInfo(req, res) {
 
         // 展示各个英雄信息
-
         // 从req对象得到从浏览器传过来的id
         // console.log(req.query.id);
         //将id挂载到req上传到数据层得到数据
@@ -58,6 +62,7 @@ module.exports = {
 
             res.rounder('info', data);
         });
+
 
 
      
