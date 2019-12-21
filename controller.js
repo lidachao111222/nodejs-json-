@@ -116,6 +116,37 @@ module.exports = {
                 }))
             });
         })
+    },
+
+
+    //改变英雄方法
+    changeHeroInfo(req,res){    
+
+        let str ='';
+
+        req.on('data',chunk=>{
+            str+=chunk;
+        });
+
+        req.on('end',()=>{
+            let obj = querystring.parse(str);
+            
+            let date = moment().format('YYYY-MM-DD hh:mm:ss');
+
+            obj.date = date;
+            //进去json中改变数据
+            dataModel.changeHeroInfo(obj,(err,data)=>{
+                if(err == false) return res.end(JSON.stringify({
+                    code:201,
+                    msg: 'change error'
+                }))
+                res.end(JSON.stringify({
+                    code:200,
+                    msg: 'success'
+                }))
+            });
+        })
+
     }
 
 }

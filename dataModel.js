@@ -55,6 +55,35 @@ module.exports = {
             })
            
         })
+    },
+
+
+    // 改变英雄信息
+    changeHeroInfo(obj,callback){
+        this.getAllHeros((err,data)=>{
+            if(err) return callback(false);
+            //得到修改对象的id
+            let id = obj.id;
+
+            // console.log(typeof data);
+
+            //遍历得到id所在位置
+            for (let i =0 ; i<data.length; i++){
+                if(data[i].id == id){
+                    // console.log(i);
+                    data[i]=obj;
+                    console.log(data);
+                }
+            } 
+
+
+            //写入到json中
+            fs.writeFile(path.join(__dirname,'./heros.json'),JSON.stringify(data),(err)=>{
+                if(err) return console.log(false);
+                callback(true);
+            })
+
+        })
     }
 
 }

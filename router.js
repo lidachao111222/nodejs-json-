@@ -28,7 +28,10 @@ module.exports = function router(req, res) {
     } else if (res.method == 'POST' && res.pathname.startsWith('/createNew')) {
         controller.createNew(req,res);
 
-    } else {
+    } else if (res.method == 'POST' && res.pathname.startsWith('/changeHeroInfo')) {
+        controller.changeHeroInfo(req,res);
+
+    }  else {
         res.end('404');
     }
 
