@@ -10,11 +10,27 @@ const bindRounder = require('./bindRouter');
 
 
 module.exports = {
+    //得到所有英雄的数据
     getAllHeros(callback) {
         fs.readFile(path.join(__dirname, './heros.json'), (err, data) => {
             if (err) return callback(err.message);
             let arrObj = JSON.parse(data);
             callback(null,arrObj);
         })
+    },
+
+    // 根据id得到单个英雄的数据
+    getEachHero(id,callback){
+        this.getAllHeros((err,data)=>{
+            if(err) return callback(err);
+            let obj;
+            data.some(item=>{
+                if(item.id == id){
+                    obj = item;
+                }
+            })
+            callback(null,obj);
+        })
     }
+
 }

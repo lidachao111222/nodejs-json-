@@ -31,7 +31,7 @@ app.on('request', (req, res) => {
 
     let urlObj = urlModel.parse(req.url, true); //parse方法把收集到的url路径转化为对象。 true,表示将其转化为对象
 
-    let query = urlObj.query; //query: [Object: null prototype] {键:值},   得到的是get传过来的键值。 但是已经变成了对象
+    req.query = urlObj.query; //query: [Object: null prototype] {键:值},   得到的是get传过来的键值。 但是已经变成了对象
 
     res.pathname = urlObj.pathname // 3000端口号后输入的路径
 

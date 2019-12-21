@@ -1,4 +1,3 @@
-
 //引入模块
 const http = require('http'); //搭建服务器
 const path = require('path'); // path模块 ，模块提供了一些用于处理文件路径的小工具
@@ -9,45 +8,63 @@ const bindRounder = require('./bindRouter');
 const dataModel = require('./dataModel')
 
 
-module.exports= {
+module.exports = {
 
     //展示首页
-    showIndex(req,res){
+    showIndex(req, res) {
 
 
         //回調函數，得到json得到的数据，并返回到浏览器
-        dataModel.getAllHeros((err,data)=>{
-            if(err) return res.end( JSON.stringify({
-                code:200,
-                mes:'导出所有英雄数据失败'
+        dataModel.getAllHeros((err, data) => {
+            if (err) return res.end(JSON.stringify({
+                code: 200,
+                mes: '导出所有英雄数据失败'
             }))
             res.rounder('index', data);
         })
 
-       
+
     },
 
 
     //展示添加页面
-    showAdd(req,res){
+    showAdd(req, res) {
+
+
         res.rounder('add', {});
     },
 
 
     //展示编辑页面
-    showEdit(req,res){
+    showEdit(req, res) {
         res.rounder('edit', {});
     },
 
 
     // 展示详情页面
-    showInfo(req,res){
-        res.rounder('info', {});
+    showInfo(req, res) {
+
+        // 展示各个英雄信息
+
+        // 从req对象得到从浏览器传过来的id
+        // console.log(req.query.id);
+        //将id挂载到req上传到数据层得到数据
+        dataModel.getEachHero(req.query.id,(err,data)=>{
+            if(err) res.edn(JSON.stringify({
+                code:201,
+                msg:err
+            }) )
+
+            res.rounder('info', data);
+        });
+
+
+     
     },
 
 
     // 静态文件请求
-    staticDoc(req,res){
+    staticDoc(req, res) {
         fs.readFile(path.join(__dirname, res.pathname), (err, data) => {
 
             if (err) return console.log(err.message);
