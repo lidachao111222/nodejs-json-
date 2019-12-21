@@ -6,7 +6,8 @@ const template = require('_art-template@4.13.2@art-template'); //第三方模块
 const fs = require('fs'); //file system 模板， 用于读写数据。
 const bindRounder = require('./bindRouter');
 const dataModel = require('./dataModel')
-
+const querystring = require('querystring');
+const moment = require('moment');
 
 module.exports = {
 
@@ -76,6 +77,39 @@ module.exports = {
             }
 
             res.end(data);
+        })
+    },
+
+
+    //创建新的英雄方法
+    createNew(req,res){
+        
+        // console.log(res);
+
+        let str = '';
+
+        req.on('data',chunk=>{
+            str += chunk;
+        })
+
+        req.on('end',()=>{
+            let obj = querystring.parse(str);
+
+            let date = moment().format('YYYY-MM-DD hh:mm:ss');
+
+            obj.date = date;
+
+            // console.log(obj);
+            dataModel.addNewHero(obj,(data)=>{
+                if(data == false) return res.end(JSON.stringify({
+                    code:201,
+                    msg: 'create error'
+                }))
+                res.end(JSON.stringify({
+                    code:200,
+                    msg:'success'
+                }))
+            });
         })
     }
 

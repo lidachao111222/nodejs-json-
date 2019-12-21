@@ -30,11 +30,49 @@
           </label>
         </div>
       </div>
+      <div class="form-group">
+        <label>英雄年龄</label>
+        <input type="text" name="age" class="form-control" placeholder="请输入英雄年龄">
+      </div>
+      <div class="form-group">
+        <label>英雄地址</label>
+        <input type="text" name="address" class="form-control" placeholder="请输入英雄地址">
+      </div>
       <button type="submit" class="btn btn-success">点击保存</button>
     </form>
   </div>
   <script src="/node_modules/jquery/dist/jquery.js"></script>
 </body>
 
-</html>
+<script>
+  //注册ajax请求，把数据传回到服务器
 
+  $(function () {
+
+    //注册点击事件
+    $('.btn-success').on('click',function(e){
+      e.preventDefault();
+
+      let data = $('#form').serialize();
+
+      //ajax请求发送数据
+      $.post({
+        url:'/createNew',
+        data:data,
+        dataType: "json",
+        success:function(res){
+          console.log(res);
+         if(res.code ==200){
+           location.href='./index.html';
+         }
+        }
+      })
+
+    })
+
+
+  })
+</script>
+
+
+</html>

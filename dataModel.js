@@ -31,6 +31,30 @@ module.exports = {
             })
             callback(null,obj);
         })
+    },
+
+    //添加新的英雄到json文件中
+    addNewHero(obj,callback){
+        this.getAllHeros((err,data)=>{
+            if(err) return callback(false);
+
+            // 得到所有data的数据。去最后一个的id+1
+            // console.log(+data[data.length-1].id + 1);
+
+            obj.id = ((+data[data.length-1].id) + 1).toString();   //转为string形式
+            // console.log(obj);
+
+            //把新的数据传入到data中再写入到json文件内
+            data.push(obj);
+            // console.log(data);
+            // console.log(JSON.stringify(data));
+
+            fs.writeFile(path.join(__dirname,'./heros.json'),JSON.stringify(data),(err)=>{
+                if(err) return console.log(false);
+                callback(true);
+            })
+           
+        })
     }
 
 }
