@@ -84,6 +84,33 @@ module.exports = {
             })
 
         })
+    },
+
+
+
+    //删除英雄，找到对应id
+    delHero(id,callback){
+        this.getAllHeros((err,data)=>{
+            if(err) return callback(false);
+
+
+            //遍历得到id所在位置
+            for (let i =0 ; i<data.length; i++){
+                if(data[i].id == id){
+                    //使用splice进行删除
+                    data.splice(i, 1);
+                  
+                }
+            } 
+
+            //写入到json中
+            fs.writeFile(path.join(__dirname,'./heros.json'),JSON.stringify(data),(err)=>{
+                if(err) return console.log(false);
+                callback(true);
+            })
+            
+
+        })
     }
 
 }

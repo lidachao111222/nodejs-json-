@@ -31,6 +31,9 @@ module.exports = function router(req, res) {
     } else if (res.method == 'POST' && res.pathname.startsWith('/changeHeroInfo')) {
         controller.changeHeroInfo(req,res);
 
+    } else if (res.method == 'GET' && res.pathname.startsWith('/delHero')) {
+        controller.delHero(req,res);
+
     }  else {
         res.end('404');
     }

@@ -38,12 +38,12 @@ module.exports = {
     showEdit(req, res) {
         // console.log(req.query.id);
         //根据id将数据传回;
-        dataModel.getEachHero(req.query.id,(err,data)=>{
-            if(err) return res.end(err);
+        dataModel.getEachHero(req.query.id, (err, data) => {
+            if (err) return res.end(err);
 
             res.rounder('edit', data);
         })
-       
+
     },
 
 
@@ -54,18 +54,18 @@ module.exports = {
         // 从req对象得到从浏览器传过来的id
         // console.log(req.query.id);
         //将id挂载到req上传到数据层得到数据
-        dataModel.getEachHero(req.query.id,(err,data)=>{
-            if(err) res.edn(JSON.stringify({
-                code:201,
-                msg:err
-            }) )
+        dataModel.getEachHero(req.query.id, (err, data) => {
+            if (err) res.edn(JSON.stringify({
+                code: 201,
+                msg: err
+            }))
 
             res.rounder('info', data);
         });
 
 
 
-     
+
     },
 
 
@@ -87,17 +87,17 @@ module.exports = {
 
 
     //创建新的英雄方法
-    createNew(req,res){
-        
+    createNew(req, res) {
+
         // console.log(res);
 
         let str = '';
 
-        req.on('data',chunk=>{
+        req.on('data', chunk => {
             str += chunk;
         })
 
-        req.on('end',()=>{
+        req.on('end', () => {
             let obj = querystring.parse(str);
 
             let date = moment().format('YYYY-MM-DD hh:mm:ss');
@@ -105,14 +105,14 @@ module.exports = {
             obj.date = date;
 
             // console.log(obj);
-            dataModel.addNewHero(obj,(data)=>{
-                if(data == false) return res.end(JSON.stringify({
-                    code:201,
+            dataModel.addNewHero(obj, (data) => {
+                if (data == false) return res.end(JSON.stringify({
+                    code: 201,
                     msg: 'create error'
                 }))
                 res.end(JSON.stringify({
-                    code:200,
-                    msg:'success'
+                    code: 200,
+                    msg: 'success'
                 }))
             });
         })
@@ -120,33 +120,49 @@ module.exports = {
 
 
     //改变英雄方法
-    changeHeroInfo(req,res){    
+    changeHeroInfo(req, res) {
 
-        let str ='';
+        let str = '';
 
-        req.on('data',chunk=>{
-            str+=chunk;
+        req.on('data', chunk => {
+            str += chunk;
         });
 
-        req.on('end',()=>{
+        req.on('end', () => {
             let obj = querystring.parse(str);
-            
+
             let date = moment().format('YYYY-MM-DD hh:mm:ss');
 
             obj.date = date;
             //进去json中改变数据
-            dataModel.changeHeroInfo(obj,(err,data)=>{
-                if(err == false) return res.end(JSON.stringify({
-                    code:201,
+            dataModel.changeHeroInfo(obj, (err) => {
+                if (err == false) return res.end(JSON.stringify({
+                    code: 201,
                     msg: 'change error'
                 }))
                 res.end(JSON.stringify({
-                    code:200,
+                    code: 200,
                     msg: 'success'
                 }))
             });
         })
 
+    },
+
+
+    //删除英雄
+    delHero(req, res) {
+        // console.log(req.query.id);
+        dataModel.delHero(req.query.id, (err) => {
+            if (err == false) return res.end(JSON.stringify({
+                code: 201,
+                msg: 'change error'
+            }))
+            res.end(JSON.stringify({
+                code: 200,
+                msg: 'success'
+            }))
+        });
     }
 
 }
